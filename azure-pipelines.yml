@@ -1,0 +1,27 @@
+trigger:
+- feature/node
+
+pool:
+  name: vinay-vm
+
+jobs:
+- job: NodejsBuildJob
+  steps:
+  - script: |
+      az acr login --name calpsr
+      docker build -t vinay-node .
+      docker tag vinay-node:latest calpsr.azurecr.io/vinay-node:latest
+      docker push calpsr.azurecr.io/vinay-node:latest
+    displayName: 'Build nodejs application and pushing image to the ACR registry'
+
+- job: Deploy
+  steps:
+  - task: AzureRmWebAppDeployment@4
+    inputs:
+      ConnectionType: 'AzureRM'
+      azureSubscription: 'cal-service'
+      appType: 'webAppContainer'
+      WebAppName: 'Vinay-node-webapp'
+      DockerNamespace: 'calpsr.azurecr.io'
+      DockerRepository: 'vinay-node'
+      DockerImageTag: 'latest'
