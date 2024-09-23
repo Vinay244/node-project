@@ -21,7 +21,7 @@ jobs:
       ConnectionType: 'AzureRM'
       azureSubscription: 'cal-service'
       appType: 'webAppContainer'
-      WebAppName: 'Vinay-node-webapp'
+      WebAppName: 'Vinay-node-app'
       DockerNamespace: 'calpsr.azurecr.io'
       DockerRepository: 'vinay-node'
       DockerImageTag: 'latest'
